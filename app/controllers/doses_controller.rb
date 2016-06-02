@@ -1,11 +1,13 @@
 class DosesController < ApplicationController
   before_action :set_dose, only: [:edit, :update, :destroy]
+  before_action :find_cocktail, only: [:new, :create, :destroy]
+
 
   # GET /doses/new
   def new
     @dose = Dose.new
-    @cocktail = Cocktail.find(params[:cocktail_id])
-    @dose.cocktail = @cocktail
+    # @dose.cocktail = @cocktail
+    @ingredient = Ingredient.all
   end
 
   # GET /doses/1/edit
@@ -15,9 +17,10 @@ class DosesController < ApplicationController
   # POST /doses
   def create
     @dose = Dose.new(dose_params)
+    @dose.cocktail = @cocktail
 
     if @dose.save
-      redirect_to @dose, notice: 'Dose was successfully created.'
+      redirect_to cocktail_path(@cocktail), notice: 'Dose was successfully created.'
     else
       render :new
     end
@@ -35,7 +38,7 @@ class DosesController < ApplicationController
   # DELETE /doses/1
   def destroy
     @dose.destroy
-    redirect_to doses_url, notice: 'Dose was successfully destroyed.'
+    redirect_to root_path, notice: 'Dose was successfully destroyed.'
   end
 
   private
@@ -44,8 +47,14 @@ class DosesController < ApplicationController
       @dose = Dose.find(params[:id])
     end
 
+    def find_cocktail
+      @cocktail = Cocktail.find(params[:cocktail_id])
+    end
+
     # Only allow a trusted parameter "white list" through.
     def dose_params
       params.require(:dose).permit(:description)
     end
-end
+
+
+  end
