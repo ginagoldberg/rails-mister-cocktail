@@ -1,14 +1,5 @@
 class DosesController < ApplicationController
-  before_action :set_dose, only: [:show, :edit, :update, :destroy]
-
-  # GET /doses
-  def index
-    @doses = Dose.all
-  end
-
-  # GET /doses/1
-  def show
-  end
+  before_action :set_dose, only: [:edit, :update, :destroy]
 
   # GET /doses/new
   def new
