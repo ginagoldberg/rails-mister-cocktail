@@ -1,10 +1,10 @@
-<%= form_for(@dose, @cocktail) do |f| %>
+<%= form_for( [@cocktail, @dose] ) do |f| %>
+<%= f.label :ingredient %>
+<%= f.collection_select :ingredient_id, @available_ingredients, :id, :name %>
 <div class="field">
-  <%= f.label :description %><br>
+  <%= f.label "Amount" %><br>
   <%= f.text_area :description %>
 </div>
-  <%= f.label :ingredient %>
-  <%= f.collection_select :ingredient_id, Ingredient.all, :id, :name %>
 <div class="actions">
   <%= f.submit %>
 </div>

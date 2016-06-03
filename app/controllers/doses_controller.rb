@@ -6,8 +6,9 @@ class DosesController < ApplicationController
   # GET /doses/new
   def new
     @dose = Dose.new
-    # @dose.cocktail = @cocktail
-    @ingredient = Ingredient.all
+    @dose.cocktail = @cocktail
+    @available_ingredients = Ingredient.all - @cocktail.ingredients
+    # the line above shows only the ingredients that have not already been used in the cocktail
   end
 
   # GET /doses/1/edit
@@ -38,7 +39,7 @@ class DosesController < ApplicationController
   # DELETE /doses/1
   def destroy
     @dose.destroy
-    redirect_to root_path, notice: 'Dose was successfully destroyed.'
+    redirect_to cocktail_path(@cocktail), notice: 'Dose was successfully destroyed.'
   end
 
   private
@@ -53,7 +54,7 @@ class DosesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def dose_params
-      params.require(:dose).permit(:description)
+      params.require(:dose).permit(:description, :ingredient_id)
     end
 
 
